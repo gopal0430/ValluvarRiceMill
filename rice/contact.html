@@ -30,6 +30,9 @@
      <!-- Header has been called here -->
      <div id="header"></div>
      <!-- Call ends here -->
+     <!-- loader has been called -->
+    <div class="loader"></div>
+    <!-- call ends here -->
       <!-- ##### Breadcrumb Area Start ##### -->
     <div class="breadcrumb-area">
         <!-- Top Breadcrumb Area -->
@@ -117,7 +120,49 @@
      var result = "Email:"+txtFirstNumberValue + "  Name:"+txtSecondNumberValue + "  Phone:"+ txtThirdNumberValue;
       document.getElementById('4').value = result;    
         }
-        </script>    
+        </script>  
+          <!-- Style for loader -->
+        <style>
+            .loader {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: grey;
+                transition: opacity 0.75s, visibility 0.75s;
+                z-index: 9999;
+              }
+          
+              .loader--hidden {
+                opacity: 0;
+                visibility: hidden;
+              }
+          
+              .loader::after {
+                content: "";
+                width: 75px;
+                height: 75px;
+                border: 15px solid #dddddd;
+                border-top-color: green;
+                border-radius: 50%;
+                animation: loading 0.75s ease infinite;
+              }
+          
+              @keyframes loading {
+                from {
+                  transform: rotate(0turn)
+                }
+          
+                to {
+                  transform: rotate(1turn)
+                }
+              }
+        </style>
+        <!-- Style ended -->
          <!-- Calling chat bot -->
      <div id="chatbot"></div>
      <!-- Calling ends -->  
@@ -146,6 +191,18 @@
          fetch('floating.html')
          .then(response => response.text())
          .then(data => document.getElementById('floating').innerHTML = data);
+         
+         // Loader js
+         window.addEventListener("load", () =>{
+            const loader = document.querySelector(".loader")
+            loader.classList.add("loader--hidden")
+      
+            loader.addEventListener("transitioned", () =>{
+                    document.body.removeChild(loader);
+            });
+         });
+         // ended
+
 
 
 </script>
