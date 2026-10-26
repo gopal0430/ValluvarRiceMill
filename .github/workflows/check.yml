@@ -1,0 +1,28 @@
+name: Check redesign
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        base: ['/', '/ValluvarRiceMill/']
+        review: ['true', 'false']
+    env:
+      SITE_BASE_PATH: ${{ matrix.base }}
+      PUBLIC_REVIEW_BUILD: ${{ matrix.review }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+      - run: npm run verify:site
